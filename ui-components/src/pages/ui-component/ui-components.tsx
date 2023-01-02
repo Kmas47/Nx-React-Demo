@@ -1,9 +1,6 @@
 import styles from './ui-components.module.scss';
 
-/* eslint-disable-next-line */
-export interface UiComponentsProps {}
-
-export function UiComponents(props: UiComponentsProps) {
+export default function UiComponents() {
   return (
     <div className={styles['container']}>
       <h1>Welcome to UiComponents!</h1>

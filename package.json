@@ -10,7 +10,9 @@
   "private": true,
   "dependencies": {
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-router": "^6.6.1",
+    "react-router-dom": "^6.6.1"
   },
   "devDependencies": {
     "@nrwl/eslint-plugin-nx": "15.3.3",

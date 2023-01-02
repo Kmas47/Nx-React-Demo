@@ -1,1 +1,1 @@
-export * from './pages/ui-components';
+export * from './routes/routes';
