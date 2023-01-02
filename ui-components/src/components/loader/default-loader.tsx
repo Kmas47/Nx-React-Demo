@@ -8,7 +8,7 @@ export const SuspenseLoader: React.FC<ISuspenseLoader> = ({ children }) => {
   return <Suspense fallback={<LoaderTemplate />}>{children}</Suspense>;
 };
 
-export const LoaderTemplate = () => {
+const LoaderTemplate = () => {
   return (
     <div>
       <p>Loading . . .</p>
