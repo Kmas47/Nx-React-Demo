@@ -1,12 +1,15 @@
 import React from 'react';
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { SuspenseLoader } from '../components/loader/default-loader';
+import { UIRoutes } from './routes.constants';
 
 const IndexPage = React.lazy(
   () => import('../pages/ui-component/ui-components')
 );
 
 const Error = React.lazy(() => import('../pages/error-page/Error'));
+
+const MemoryGame = React.lazy(() => import('../pages/memory-game/memory-game'));
 
 export const routes: RouteObject[] = [
   {
@@ -18,10 +21,18 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: 'new-page',
+    path: UIRoutes.NEW_PAGE,
     element: (
       <SuspenseLoader>
         <IndexPage />
+      </SuspenseLoader>
+    ),
+  },
+  {
+    path: UIRoutes.MEMORY_GAME,
+    element: (
+      <SuspenseLoader>
+        <MemoryGame />
       </SuspenseLoader>
     ),
   },
@@ -36,5 +47,5 @@ export const routes: RouteObject[] = [
 ];
 
 export const router = createBrowserRouter(routes, {
-  basename: '/calculator/',
+  basename: '',
 });
