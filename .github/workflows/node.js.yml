@@ -28,4 +28,4 @@ jobs:
         cache: 'npm'
     - run: npm ci --legacy-peer-deps
     - run: npx nx affected --target=build 
-    - run: npm test
+    - run: npx nx affected --target=test 
