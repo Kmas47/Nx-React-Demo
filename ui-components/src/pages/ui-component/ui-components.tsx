@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
-import styles from './ui-components.module.scss';
 import { UIRoutes } from '../../routes/routes.constants';
 import { Card } from '../../components/card/card';
 
 export default function UiComponents() {
   return (
-    <div className={styles['container']}>
+    <div>
       <div>
         <h1 style={{ textAlign: 'center' }}>Welcome to UiComponents!</h1>
       </div>
