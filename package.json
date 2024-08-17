@@ -15,7 +15,6 @@
     "react-router-dom": "6.11.2"
   },
   "devDependencies": {
-    "@nrwl/nx-cloud": "19.0.0",
     "@nx/eslint": "18.0.0",
     "@nx/eslint-plugin": "18.0.0",
     "@nx/react": "18.0.0",
