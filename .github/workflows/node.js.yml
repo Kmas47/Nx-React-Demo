@@ -27,5 +27,13 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci --legacy-peer-deps
-    - run: npx nx affected --target=build
-    - run: npx nx affected --target=test
+    - name: Fetch all branches
+      run: git fetch --all
+    - name: Get base commit hash
+      id: base
+      run: echo "::set-output name=BASE_COMMIT::$(git rev-parse origin/main)"
+    - name: Get head commit hash
+      id: head
+      run: echo "::set-output name=HEAD_COMMIT::$(git rev-parse HEAD)"
+    - run: npx nx affected --target=build --base=${{ steps.base.outputs.BASE_COMMIT }} --head=${{ steps.head.outputs.HEAD_COMMIT }}
+    - run: npx nx affected --target=test --base=${{ steps.base.outputs.BASE_COMMIT }} --head=${{ steps.head.outputs.HEAD_COMMIT }}
