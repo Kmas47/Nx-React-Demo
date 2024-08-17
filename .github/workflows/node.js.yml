@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [ 18.x, 20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -26,6 +26,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+    - run: npm ci --legacy-peer-deps
+    - name: Fetch all branches
+      run: git fetch --all
+    - name: Get base commit hash
+      id: base
+      run: echo "::set-output name=BASE_COMMIT::$(git rev-parse origin/main)"
+    - name: Get head commit hash
+      id: head
+      run: echo "::set-output name=HEAD_COMMIT::$(git rev-parse HEAD)"
+    - run: npx nx affected --target=build --base=${{ steps.base.outputs.BASE_COMMIT }} --head=${{ steps.head.outputs.HEAD_COMMIT }}
+    - run: npx nx affected --target=test --base=${{ steps.base.outputs.BASE_COMMIT }} --head=${{ steps.head.outputs.HEAD_COMMIT }}
