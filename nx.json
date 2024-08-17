@@ -58,17 +58,5 @@
     }
   },
   "defaultProject": "nx-react",
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "test"
-        ],
-        "useNxCloud": false
-      }
-    }
-  },
   "useInferencePlugins": false
 }
