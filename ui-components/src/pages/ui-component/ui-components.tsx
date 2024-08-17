@@ -7,9 +7,11 @@ export default function UiComponents() {
   return (
     <div className={styles['container']}>
       <div>
-        <h1>Welcome to UiComponents!</h1>
+        <h1 style={{ textAlign: 'center' }}>Welcome to UiComponents!</h1>
       </div>
-      <div style={{ display: 'flex' }}>
+      <div
+        style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}
+      >
         <div style={{ padding: 24 }}>
           <Link
             style={{ textDecoration: 'none' }}

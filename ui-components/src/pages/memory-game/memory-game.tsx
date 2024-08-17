@@ -90,7 +90,12 @@ export default function MemoryGame() {
 
   return (
     <div
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: '100vh',
+      }}
     >
       <div>
         <input
@@ -123,14 +128,18 @@ export default function MemoryGame() {
           display: 'flex',
           maxWidth: 720 + 8 * difficulty,
           flexWrap: 'wrap',
+          height: '100%',
+          width: '100%',
+          alignContent: 'flex-start',
         }}
       >
         {boxes.map((box, index) => (
           <div
             key={index}
             style={{
-              width: 720 / difficulty,
-              height: 720 / difficulty,
+              width: `calc((100% / ${difficulty}) - 8px ) `,
+              height: `calc((100vw / ${difficulty}) - 8px ) `,
+              maxHeight: `calc((100% / ${difficulty}) - 8px ) `,
               margin: '4px',
               backgroundColor:
                 box.isClicked && start
