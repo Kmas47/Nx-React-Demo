@@ -157,6 +157,7 @@ export default function MemoryGame() {
           maxWidth: 720 + 8 * difficulty,
           flexWrap: 'wrap',
           height: '100%',
+          maxHeight: 500,
           width: '100%',
           alignContent: 'flex-start',
         }}
