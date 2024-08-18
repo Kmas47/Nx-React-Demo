@@ -1,0 +1,15 @@
+.play-button {
+    background-color: #1E90FF;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 12px 32px;
+    margin: 4px;
+    font-size: 18px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.play-button:hover {
+    transform: translateY(-2px);
+}

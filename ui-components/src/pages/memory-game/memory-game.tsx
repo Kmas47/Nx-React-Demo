@@ -1,22 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { playPrimarySound, playSecondarySound } from '../../utils/utils';
+import './memory-game.scss';
+import { coloredBoxes, defaultBoxes, IBox } from './memory-game.model';
+import { memoryGameThemeColor } from '../../utils/utils.theme';
 
-const defaultBoxes: IBox = {
-  color: 'grey',
-  isColored: false,
-  isClicked: false,
-};
-
-const coloredBoxes: IBox = {
-  color: 'blue',
-  isColored: true,
-  isClicked: false,
-};
-
-interface IBox {
-  color: string;
-  isColored: boolean;
-  isClicked: boolean;
-}
+// Lazy load Confetti component
+const Confetti = React.lazy(() => import('../../components/confetti/confetti'));
 
 export default function MemoryGame() {
   const [difficulty, setDifficulty] = useState(5);
@@ -24,6 +13,7 @@ export default function MemoryGame() {
   const [start, setStart] = useState(false);
   const [count, setCount] = useState(0);
   const [target, setTarget] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const handleDifficultyChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,24 +81,45 @@ export default function MemoryGame() {
           if (box.isColored) {
             newBoxes[index] = {
               ...newBoxes[index],
-              color: 'green',
+              color: memoryGameThemeColor.correctBox,
               isClicked: true,
             };
+            playPrimarySound();
           } else {
             newBoxes[index] = {
               ...newBoxes[index],
-              color: 'red',
+              color: memoryGameThemeColor.incorrectBox,
               isClicked: true,
             };
+            playSecondarySound();
           }
 
           setCount(() => getCount(newBoxes));
           return newBoxes;
         });
+      } else {
+        playSecondarySound();
       }
     },
     [start]
   );
+
+  useEffect(() => {
+    let timer: string | number | NodeJS.Timeout | undefined;
+    if (target === count && start) {
+      setShowConfetti(() => true);
+      timer = setTimeout(() => {
+        setShowConfetti(() => false);
+        setStart(() => !start);
+      }, 5000);
+    }
+
+    if (!start && showConfetti) {
+      setShowConfetti(() => false);
+    }
+
+    return () => clearTimeout(timer);
+  }, [count, target, start, showConfetti]);
 
   return (
     <div
@@ -117,8 +128,17 @@ export default function MemoryGame() {
         flexDirection: 'column',
         alignItems: 'center',
         height: '100vh',
+        padding: '0px 12px',
       }}
     >
+      {showConfetti && (
+        <div key={showConfetti ? 'show' : 'hide'}>
+          <Confetti />
+        </div>
+      )}
+      <div>
+        <h1>Memory Game</h1>
+      </div>
       <div>
         <label
           htmlFor="difficulty-level"
@@ -136,15 +156,8 @@ export default function MemoryGame() {
           name="difficulty-level"
         ></input>
       </div>
-
-      <div>
-        <h1>Memory Game</h1>
-      </div>
       <div style={{ padding: '24px' }}>
-        <button
-          onClick={handlePlay}
-          style={{ padding: '12px 32px', margin: '4px' }}
-        >
+        <button onClick={handlePlay} className="play-button">
           {start ? 'reset' : 'Play'}
         </button>
         <p style={{ textAlign: 'center' }}>
@@ -170,11 +183,12 @@ export default function MemoryGame() {
               height: `calc((100vw / ${difficulty}) - 8px ) `,
               maxHeight: `calc((100% / ${difficulty}) - 8px ) `,
               margin: '4px',
+              borderRadius: 6,
               backgroundColor:
                 box.isClicked && start
                   ? box.color
                   : start && !box.isClicked
-                  ? 'grey'
+                  ? '#D3D3D3'
                   : box.color,
               transition:
                 box.isClicked && start
