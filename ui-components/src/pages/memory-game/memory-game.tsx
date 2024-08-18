@@ -3,6 +3,7 @@ import { playPrimarySound, playSecondarySound } from '../../utils/utils';
 import './memory-game.scss';
 import { coloredBoxes, defaultBoxes, IBox } from './memory-game.model';
 import { memoryGameThemeColor } from '../../utils/utils.theme';
+import { MemoryGameHeader } from '../../components/header/memory-game.header';
 
 // Lazy load Confetti component
 const Confetti = React.lazy(() => import('../../components/confetti/confetti'));
@@ -131,6 +132,9 @@ export default function MemoryGame() {
         padding: '0px 12px',
       }}
     >
+      <div>
+        <MemoryGameHeader />
+      </div>
       {showConfetti && (
         <div key={showConfetti ? 'show' : 'hide'}>
           <Confetti />
