@@ -1,6 +1,6 @@
-// constants
-
 import { memoryGameThemeColor } from '../../utils/utils.theme';
+
+// constants
 
 export const defaultBoxes: IBox = {
   color: memoryGameThemeColor.defaultBox,
