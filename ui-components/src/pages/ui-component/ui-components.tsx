@@ -22,13 +22,13 @@ export default function UiComponents() {
           </Link>
         </div>
 
-        <div style={{ padding: 24 }}>
+        {/* <div style={{ padding: 24 }}>
           <Link style={{ textDecoration: 'none' }} to={'/random-error-page'}>
             <Card>
               <p> Redirect to error page</p>
             </Card>
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );
