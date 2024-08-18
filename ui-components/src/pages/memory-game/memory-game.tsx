@@ -22,6 +22,8 @@ export default function MemoryGame() {
   const [difficulty, setDifficulty] = useState(5);
   const [boxes, setBoxes] = useState<IBox[]>([]);
   const [start, setStart] = useState(false);
+  const [count, setCount] = useState(0);
+  const [target, setTarget] = useState(0);
 
   const handleDifficultyChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,10 +46,15 @@ export default function MemoryGame() {
     return newBoxes;
   }, [difficulty]);
 
+  const resetBoxesAndCount = useCallback((newBoxes: IBox[]) => {
+    setBoxes(() => newBoxes);
+    setCount(() => getCount(newBoxes));
+  }, []);
+
   useEffect(() => {
     setStart(() => false);
     const newBoxes = generateMatrix();
-    setBoxes(() => newBoxes);
+    resetBoxesAndCount(newBoxes);
   }, [difficulty, generateMatrix]);
 
   const handlePlay = useCallback(() => {
@@ -57,9 +64,23 @@ export default function MemoryGame() {
   useEffect(() => {
     if (!start) {
       const newBoxes = generateMatrix();
-      setBoxes(() => newBoxes);
+      resetBoxesAndCount(newBoxes);
     }
   }, [start]);
+
+  useEffect(() => {
+    let targetCount = 0;
+    boxes.forEach((box) => {
+      if (box.isColored) {
+        targetCount++;
+      }
+    });
+    setTarget(() => targetCount);
+  }, [boxes]);
+
+  const getCount = useCallback((boxes: IBox[]) => {
+    return boxes.filter((box) => box.isClicked && box.isColored).length;
+  }, []);
 
   const handleBoxClicked = useCallback(
     (box: IBox, index: number) => () => {
@@ -81,6 +102,7 @@ export default function MemoryGame() {
             };
           }
 
+          setCount(() => getCount(newBoxes));
           return newBoxes;
         });
       }
@@ -98,6 +120,12 @@ export default function MemoryGame() {
       }}
     >
       <div>
+        <label
+          htmlFor="difficulty-level"
+          style={{ display: 'block', padding: '8px' }}
+        >
+          Difficulty level - {difficulty}
+        </label>
         <input
           type="range"
           min="2"
@@ -107,9 +135,6 @@ export default function MemoryGame() {
           id="difficulty-level"
           name="difficulty-level"
         ></input>
-        <label htmlFor="difficulty-level" style={{ padding: '8px' }}>
-          Difficulty level - {difficulty}
-        </label>
       </div>
 
       <div>
@@ -122,6 +147,9 @@ export default function MemoryGame() {
         >
           {start ? 'reset' : 'Play'}
         </button>
+        <p style={{ textAlign: 'center' }}>
+          Score: {count}/{target}
+        </p>
       </div>
       <div
         style={{
