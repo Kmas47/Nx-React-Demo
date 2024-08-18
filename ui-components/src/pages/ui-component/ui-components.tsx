@@ -6,7 +6,7 @@ export default function UiComponents() {
   return (
     <div>
       <div>
-        <h1 style={{ textAlign: 'center' }}>Welcome to UiComponents!</h1>
+        <h1 style={{ textAlign: 'center' }}>Welcome to Dashboard!</h1>
       </div>
       <div
         style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}
