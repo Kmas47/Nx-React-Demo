@@ -4,12 +4,14 @@ import styles from './app.module.scss';
 import { router } from '@nx-react/ui-components';
 import { Analytics } from '@vercel/analytics/react';
 import { HelmetProvider } from 'react-helmet-async';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 export function App() {
   return (
     <>
       <HelmetProvider>
         <Analytics />
+        <SpeedInsights />
         <RouterProvider router={router} />
       </HelmetProvider>
     </>
