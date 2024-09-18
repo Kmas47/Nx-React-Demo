@@ -47,7 +47,7 @@
     "prettier": "^2.6.2",
     "sass": "^1.55.0",
     "typescript": "5.3.3",
-    "vite": "4.5.3",
+    "vite": "4.5.5",
     "vite-plugin-dts": "1.7.3",
     "vite-plugin-eslint": "^1.6.0",
     "vite-tsconfig-paths": "4.3.2",
