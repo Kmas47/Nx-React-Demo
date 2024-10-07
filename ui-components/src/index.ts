@@ -1,1 +1,1 @@
-export { router } from './routes/routes';
+export { UiRoutes } from './routes/routes';

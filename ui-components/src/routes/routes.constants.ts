@@ -1,4 +1,4 @@
 export enum UIRoutes {
-  NEW_PAGE = 'new-page',
+  DASHBOARD = 'dashboard',
   MEMORY_GAME = 'memory-game',
 }

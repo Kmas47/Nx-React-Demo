@@ -10,7 +10,7 @@ const Confetti = React.lazy(() => import('../../components/confetti/confetti'));
 
 export default function MemoryGame() {
   const [difficulty, setDifficulty] = useState(5);
-  const [boxes, setBoxes] = useState<IBox[]>([]);
+  const [boxes, setBoxes] = useState<IBox[][]>([]);
   const [start, setStart] = useState(false);
   const [count, setCount] = useState(0);
   const [target, setTarget] = useState(0);
@@ -24,20 +24,26 @@ export default function MemoryGame() {
   );
 
   const generateMatrix = useCallback(() => {
-    const newBoxes: IBox[] = [];
+    const newBoxes: IBox[][] = [];
 
-    for (let i = 0; i < difficulty * difficulty; i++) {
-      if (Math.floor(Math.random() * difficulty) % 2 === 0) {
-        newBoxes.push(defaultBoxes);
-      } else {
-        newBoxes.push(coloredBoxes);
+    for (let i = 0; i < difficulty; i++) {
+      const row = [];
+
+      for (let j = 0; j < difficulty; j++) {
+        if (Math.floor(Math.random() * difficulty) % 2 === 0) {
+          row.push(defaultBoxes);
+        } else {
+          row.push(coloredBoxes);
+        }
       }
+
+      newBoxes.push(row as any);
     }
 
     return newBoxes;
   }, [difficulty]);
 
-  const resetBoxesAndCount = useCallback((newBoxes: IBox[]) => {
+  const resetBoxesAndCount = useCallback((newBoxes: IBox[][]) => {
     setBoxes(() => newBoxes);
     setCount(() => getCount(newBoxes));
   }, []);
@@ -62,39 +68,44 @@ export default function MemoryGame() {
   useEffect(() => {
     let targetCount = 0;
     boxes.forEach((box) => {
-      if (box.isColored) {
-        targetCount++;
-      }
+      box.forEach((boxItem) => {
+        if (boxItem.isColored) {
+          targetCount++;
+        }
+      });
     });
     setTarget(() => targetCount);
   }, [boxes]);
 
-  const getCount = useCallback((boxes: IBox[]) => {
-    return boxes.filter((box) => box.isClicked && box.isColored).length;
+  const getCount = useCallback((boxes: IBox[][]) => {
+    let count = 0;
+    boxes.forEach((box) => {
+      count =
+        count + box.filter((box) => box.isClicked && box.isColored).length;
+    });
+    return count;
   }, []);
 
   const handleBoxClicked = useCallback(
-    (box: IBox, index: number) => () => {
+    (box: IBox, index: number, itemIndex: number) => () => {
       if (start && !box.isClicked) {
         setBoxes((prevBoxes) => {
           const newBoxes = [...prevBoxes];
-
           if (box.isColored) {
-            newBoxes[index] = {
-              ...newBoxes[index],
+            newBoxes[index][itemIndex] = {
+              ...newBoxes[index][itemIndex],
               color: memoryGameThemeColor.correctBox,
               isClicked: true,
             };
             playPrimarySound();
           } else {
-            newBoxes[index] = {
-              ...newBoxes[index],
+            newBoxes[index][itemIndex] = {
+              ...newBoxes[index][itemIndex],
               color: memoryGameThemeColor.incorrectBox,
               isClicked: true,
             };
             playSecondarySound();
           }
-
           setCount(() => getCount(newBoxes));
           return newBoxes;
         });
@@ -170,39 +181,39 @@ export default function MemoryGame() {
       </div>
       <div
         style={{
-          display: 'flex',
-          maxWidth: 720 + 8 * difficulty,
-          flexWrap: 'wrap',
           height: '100%',
-          maxHeight: 500,
           width: '100%',
           alignContent: 'flex-start',
         }}
       >
         {boxes.map((box, index) => (
-          <div
-            key={index}
-            style={{
-              width: `calc((100% / ${difficulty}) - 8px ) `,
-              height: `calc((100vw / ${difficulty}) - 8px ) `,
-              maxHeight: `calc((100% / ${difficulty}) - 8px ) `,
-              margin: '4px',
-              borderRadius: 6,
-              backgroundColor:
-                box.isClicked && start
-                  ? box.color
-                  : start && !box.isClicked
-                  ? '#D3D3D3'
-                  : box.color,
-              transition:
-                box.isClicked && start
-                  ? 'ease-in 0.3s'
-                  : start && !box.isClicked
-                  ? 'ease-in 3s'
-                  : 'ease-in',
-            }}
-            onClick={handleBoxClicked(box, index)}
-          ></div>
+          <div style={{ display: 'flex' }} key={index}>
+            {box.map((item, itemIndex) => (
+              <div
+                key={index + itemIndex}
+                style={{
+                  width: `calc((100% / ${difficulty}) - 8px ) `,
+                  height: `calc((100vw / ${difficulty}) - 8px ) `,
+                  maxHeight: `calc((100% / ${difficulty}) - 8px ) `,
+                  margin: '4px',
+                  borderRadius: 6,
+                  backgroundColor:
+                    item.isClicked && start
+                      ? item.color
+                      : start && !item.isClicked
+                      ? '#D3D3D3'
+                      : item.color,
+                  transition:
+                    item.isClicked && start
+                      ? 'ease-in 0.3s'
+                      : start && !item.isClicked
+                      ? 'ease-in 3s'
+                      : 'ease-in',
+                }}
+                onClick={handleBoxClicked(item, index, itemIndex)}
+              ></div>
+            ))}
+          </div>
         ))}
       </div>
     </div>

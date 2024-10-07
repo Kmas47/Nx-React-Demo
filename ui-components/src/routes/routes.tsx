@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBrowserRouter, RouteObject } from 'react-router-dom';
+import { RouteObject } from 'react-router-dom';
 import { SuspenseLoader } from '../components/loader/default-loader';
 import { UIRoutes } from './routes.constants';
 
@@ -11,7 +11,7 @@ const Error = React.lazy(() => import('../pages/error-page/Error'));
 
 const MemoryGame = React.lazy(() => import('../pages/memory-game/memory-game'));
 
-export const routes: RouteObject[] = [
+export const UiRoutes: RouteObject[] = [
   {
     path: '/',
     element: (
@@ -21,7 +21,7 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: UIRoutes.NEW_PAGE,
+    path: UIRoutes.DASHBOARD,
     element: (
       <SuspenseLoader>
         <IndexPage />
@@ -46,6 +46,4 @@ export const routes: RouteObject[] = [
   },
 ];
 
-export const router = createBrowserRouter(routes, {
-  basename: '',
-});
+export default UiRoutes;
