@@ -192,6 +192,7 @@ export default function MemoryGame() {
               <div
                 tabIndex={0}
                 key={index + itemIndex}
+                role="button"
                 aria-label={`row-${index + 1}, column-${itemIndex + 1}`}
                 style={{
                   width: `calc((100% / ${difficulty}) - 8px ) `,
