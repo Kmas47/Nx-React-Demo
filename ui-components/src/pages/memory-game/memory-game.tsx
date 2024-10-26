@@ -190,7 +190,9 @@ export default function MemoryGame() {
           <div style={{ display: 'flex' }} key={index}>
             {box.map((item, itemIndex) => (
               <div
+                tabIndex={0}
                 key={index + itemIndex}
+                aria-label={`row-${index + 1}, column-${itemIndex + 1}`}
                 style={{
                   width: `calc((100% / ${difficulty}) - 8px ) `,
                   height: `calc((100vw / ${difficulty}) - 8px ) `,
