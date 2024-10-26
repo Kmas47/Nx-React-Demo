@@ -22,7 +22,7 @@ export default defineConfig({
     reporters: ['default'],
     coverage: {
       reportsDirectory: 'coverage',
-      provider: 'c8',
+      provider: 'v8',
     },
     globals: true,
     cache: {

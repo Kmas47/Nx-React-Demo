@@ -42,7 +42,7 @@ export default defineConfig({
     reporters: ['default'],
     coverage: {
       reportsDirectory: '../coverage/ui-components',
-      provider: 'c8',
+      provider: 'v8',
     },
     globals: true,
     cache: {
